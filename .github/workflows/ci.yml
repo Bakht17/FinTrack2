@@ -68,7 +68,11 @@ jobs:
       - name: Build project
         run: |
           make
-
+          
+      - name: Make test executable
+        run: |
+          chmod +x ./tests/tst_homewindow  # Добавление прав на выполнение
+          
       - name: Run tests
         run: |
           ./tests/tst_homewindow

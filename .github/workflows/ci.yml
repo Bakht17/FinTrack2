@@ -37,18 +37,31 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y build-essential python3 python3-pip
+        run: sudo apt-get update && sudo apt-get install -y build-essential python3 python3-pip git
 
       - name: Install aqtinstall (Qt installer)
         run: |
           pip3 install aqtinstall
 
-      - name: Install Qt 6.6.0 with QtCharts
+      - name: List available Qt versions and modules
         run: |
-          aqt install-qt linux desktop 6.6.0 gcc_64 --outputdir $HOME/Qt --modules charts
+          aqt list-qt linux desktop --arch 6.6.3
+
+      - name: Install Qt 6.6.3
+        run: |
+          aqt install-qt linux desktop 6.6.3 gcc_64 --outputdir $HOME/Qt
 
       - name: Set up Qt environment
-        run: echo "$HOME/Qt/6.6.0/gcc_64/bin" >> $GITHUB_PATH
+        run: echo "$HOME/Qt/6.6.3/gcc_64/bin" >> $GITHUB_PATH
+
+      - name: Install and build QtCharts manually
+        run: |
+          cd $HOME/Qt/6.6.3/gcc_64
+          git clone https://code.qt.io/qt/qtcharts.git
+          cd qtcharts
+          qmake
+          make -j$(nproc)
+          sudo make install
 
       - name: Configure project with qmake
         run: |

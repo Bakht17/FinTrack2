@@ -60,7 +60,7 @@ jobs:
 
       - name: Configure project with qmake
         run: |
-          cd $HOME/Qt/6.5.2/gcc_64
+          cd $GITHUB_WORKSPACE
           qmake FinTrack.pro
 
       - name: Build project

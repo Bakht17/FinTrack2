@@ -47,10 +47,6 @@ jobs:
         run: |
           aqt list-qt linux desktop --arch 6.5.2
 
-      - name: List available modules for Qt 6.5.2
-        run: |
-          aqt list-qt linux desktop --modules 6.5.2 gcc_64
-
       - name: Install Qt 6.5.2 with Charts module
         run: |
           aqt install-qt linux desktop 6.5.2 gcc_64 --outputdir $HOME/Qt --modules charts
@@ -60,6 +56,7 @@ jobs:
 
       - name: Configure project with qmake
         run: |
+          cd $HOME/Qt/6.5.2/gcc_64
           qmake FinTrack.pro
 
       - name: Build project

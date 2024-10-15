@@ -45,14 +45,14 @@ jobs:
 
       - name: List available Qt versions and modules
         run: |
-          aqt list-qt linux desktop --arch 6.6.3
+          aqt list-qt linux desktop --arch 6.5.2
 
-      - name: Install Qt 6.6.3 with Charts module
+      - name: Install Qt 6.5.2 with Charts module
         run: |
-          aqt install-qt linux desktop 6.6.3 gcc_64 --outputdir $HOME/Qt --modules charts
+          aqt install-qt linux desktop 6.5.2 gcc_64 --outputdir $HOME/Qt --modules charts
 
       - name: Set up Qt environment
-        run: echo "$HOME/Qt/6.6.3/gcc_64/bin" >> $GITHUB_PATH
+        run: echo "$HOME/Qt/6.5.2/gcc_64/bin" >> $GITHUB_PATH
 
       - name: Configure project with qmake
         run: |

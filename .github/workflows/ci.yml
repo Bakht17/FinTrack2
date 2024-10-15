@@ -64,4 +64,4 @@ jobs:
 
       - name: Run tests
         run: |
-          ./tests/tst_homewindow
+          ./tests/tst_homewindow.cpp

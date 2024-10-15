@@ -44,7 +44,9 @@ jobs:
           cd /usr/src/googletest
           sudo cmake .
           sudo make
-          sudo cp *.a /usr/lib  # Копирование библиотек в системную директорию
+          sudo cp googlemock/*.a /usr/lib  # Копирование библиотек gmock
+          sudo cp googletest/*.a /usr/lib  # Копирование библиотек gtest
+
   
       - name: Install aqtinstall (Qt installer)
         run: |

@@ -31,57 +31,44 @@ jobs:
   build-and-test:
     name: Build and Test
     runs-on: ubuntu-latest
-  
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-  
+
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential python3 python3-pip
-          sudo apt-get install -y libgtest-dev  # Установка gtest
-          cd /usr/src/googletest
-          sudo cmake .
-          sudo make
-          sudo cp googlemock/*.a /usr/lib  # Копирование библиотек gmock
-          sudo cp googletest/*.a /usr/lib  # Копирование библиотек gtest
+          sudo apt-get install -y build-essential python3 python3-pip libgl1-mesa-dev libglu1-mesa-dev
 
-  
       - name: Install aqtinstall (Qt installer)
         run: |
           pip3 install aqtinstall
-  
+
       - name: Upgrade aqtinstall
         run: |
           pip3 install --upgrade aqtinstall
-  
+
       - name: List available Qt versions
         run: |
           aqt list-qt linux desktop --arch 6.5.2
-  
+
       - name: Install Qt 6.5.2 with all modules
         run: |
           aqt install-qt linux desktop 6.5.2 gcc_64 --outputdir $HOME/Qt --modules all
-  
+
       - name: Set up Qt environment
         run: echo "$HOME/Qt/6.5.2/gcc_64/bin" >> $GITHUB_PATH
-  
+
       - name: Configure project with qmake
         run: |
           cd $GITHUB_WORKSPACE
           qmake FinTrack.pro
-  
+
       - name: Build project
         run: |
           make
-  
-      - name: Compile tests
-        run: |
-          cd tests
-          qmake tst_homewindow.pro
-          make
-  
+
       - name: Run tests
         run: |
-          ./tests/tst_homewindow  # Запуск скомпилированных тестов
+          ./tests/tst_homewindow.cpp

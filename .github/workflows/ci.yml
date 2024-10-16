@@ -17,14 +17,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install clang-format
-        run: sudo apt-get update && sudo apt-get install -y clang-format
+      - name: Install clang-tidy
+        run: sudo apt-get update && sudo apt-get install -y clang-tidy
 
-      - name: Format code with clang-format
+      - name: Run clang-tidy to check code style
+        run: |
+          find . -name '*.cpp' -o -name '*.h' | xargs clang-tidy --warnings-as-errors=*
+
+      - name: Install clang-format (for formatting)
+        run: sudo apt-get install -y clang-format
+
+      - name: Format C++ code with clang-format
         run: |
           find . -name '*.cpp' -o -name '*.h' | xargs clang-format -i
 
-      - name: Check for uncommitted changes (code style violations)
+      - name: Check for uncommitted C++ changes (code style violations)
         run: |
           git diff --exit-code
 

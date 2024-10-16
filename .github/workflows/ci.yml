@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y clang-tidy clang-format bear qt6-qmake build-essential
+        run: sudo apt-get update && sudo apt-get install -y clang-tidy clang-format bear build-essential
 
       - name: Install aqtinstall (Qt installer)
         run: |

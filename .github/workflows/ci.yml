@@ -17,15 +17,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install clang-tidy
-        run: sudo apt-get update && sudo apt-get install -y clang-tidy
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y clang-tidy clang-format bear
+
+      - name: Generate compilation database
+        run: |
+          bear -- make
 
       - name: Run clang-tidy to check code style
         run: |
-          find . -name '*.cpp' -o -name '*.h' | xargs clang-tidy --warnings-as-errors=*
-
-      - name: Install clang-format (for formatting)
-        run: sudo apt-get install -y clang-format
+          find . -name '*.cpp' -o -name '*.h' | xargs clang-tidy --warnings-as-errors=* -- -p .
 
       - name: Format C++ code with clang-format
         run: |
@@ -75,10 +76,10 @@ jobs:
       - name: Build project
         run: |
           make
-          
+
       - name: Make test executable
         run: |
-          chmod +x ./tests/tst_homewindow  # Добавление прав на выполнение
+          chmod +x ./tests/tst_homewindow
           
       - name: Run tests
         run: |
